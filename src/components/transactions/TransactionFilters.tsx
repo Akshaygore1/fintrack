@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { formatCurrency } from "@/lib/transactionHelpers";
 import type { Category, TransactionFilters as TFilters } from "@/types";
 
 interface TransactionFiltersProps {
@@ -17,6 +18,7 @@ interface TransactionFiltersProps {
   categories: Category[];
   totalCount: number;
   filteredCount: number;
+  filteredTotal: number;
 }
 
 export function TransactionFilters({
@@ -25,6 +27,7 @@ export function TransactionFilters({
   categories,
   totalCount,
   filteredCount,
+  filteredTotal,
 }: TransactionFiltersProps) {
   const hasActiveFilters =
     filters.searchQuery ||
@@ -168,7 +171,7 @@ export function TransactionFilters({
       {/* Results Count */}
       <div className="text-sm text-gray-500">
         Showing {filteredCount.toLocaleString()} of {totalCount.toLocaleString()}{" "}
-        transactions
+        transactions • Total: {formatCurrency(filteredTotal)}
         {hasActiveFilters && " (filtered)"}
       </div>
     </div>

@@ -49,6 +49,11 @@ export function TransactionsPage() {
     return sortTransactions(filtered, sortBy, sortOrder);
   }, [transactions, filters, sortBy, sortOrder]);
 
+  // Calculate total amount of filtered transactions
+  const filteredTotal = useMemo(() => {
+    return filteredTransactions.reduce((sum, t) => sum + t.amount, 0);
+  }, [filteredTransactions]);
+
   // Handle sort change
   const handleSortChange = (column: "date" | "amount" | "balance") => {
     if (sortBy === column) {
@@ -129,6 +134,7 @@ export function TransactionsPage() {
         categories={categories}
         totalCount={transactions.length}
         filteredCount={filteredTransactions.length}
+        filteredTotal={filteredTotal}
       />
 
       <TransactionTable

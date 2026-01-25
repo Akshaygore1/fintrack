@@ -138,10 +138,8 @@ export function DashboardPage() {
         {/* Spending Trend (Gradient Graph) */}
         <SpendingGradientChart transactions={transactions} />
         {/* Top Income */}
-
         <TopIncomeChart transactions={transactions} />
         {/* Top Spendings */}
-
         <TopMerchantsChart data={merchantSummary} />
       </div>
     </div>
