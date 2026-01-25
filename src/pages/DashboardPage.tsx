@@ -123,7 +123,7 @@ export function DashboardPage() {
   return (
     <div className="p-6 space-y-6 max-w-[1600px] mx-auto">
       <div className="flex items-center justify-between mb-2">
-        <h1 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-2xl font-bold tracking-tight py-4">
           Financial Overview
         </h1>
         <div className="text-sm text-muted-foreground font-medium bg-secondary/50 px-3 py-1 rounded-full">
@@ -132,17 +132,17 @@ export function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Top Spendings */}
-        <TopMerchantsChart data={merchantSummary} />
-
-        {/* Top Income */}
-        <TopIncomeChart transactions={transactions} />
-
         {/* Category Spending */}
         <CategoryDonutChart data={categorySummary} />
 
         {/* Spending Trend (Gradient Graph) */}
         <SpendingGradientChart transactions={transactions} />
+        {/* Top Income */}
+
+        <TopIncomeChart transactions={transactions} />
+        {/* Top Spendings */}
+
+        <TopMerchantsChart data={merchantSummary} />
       </div>
     </div>
   );
