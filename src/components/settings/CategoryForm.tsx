@@ -65,7 +65,7 @@ export function CategoryForm({ category, onSave, onCancel }: CategoryFormProps) 
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Name */}
+
           <div className="space-y-2">
             <Label htmlFor="name">Category Name</Label>
             <Input
@@ -77,7 +77,7 @@ export function CategoryForm({ category, onSave, onCancel }: CategoryFormProps) 
             />
           </div>
 
-          {/* Color */}
+
           <div className="space-y-2">
             <Label htmlFor="color">Color</Label>
             <Select value={color} onValueChange={(v) => v && setColor(v)}>
@@ -108,7 +108,7 @@ export function CategoryForm({ category, onSave, onCancel }: CategoryFormProps) 
             </Select>
           </div>
 
-          {/* Keywords */}
+
           <div className="space-y-2">
             <Label htmlFor="keywords">Keywords (for auto-categorization)</Label>
             <div className="flex gap-2">
@@ -141,7 +141,7 @@ export function CategoryForm({ category, onSave, onCancel }: CategoryFormProps) 
             </div>
           </div>
 
-          {/* Actions */}
+
           <div className="flex gap-2 pt-2">
             <Button type="submit" disabled={!name.trim()}>
               {isEditing ? "Save Changes" : "Add Category"}

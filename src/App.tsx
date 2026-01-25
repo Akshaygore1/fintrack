@@ -9,7 +9,7 @@ import { storage } from "@/lib/storage";
 import { useEffect } from "react";
 
 export function App() {
-  // Initialize storage on app load
+
   useEffect(() => {
     storage.init();
   }, []);

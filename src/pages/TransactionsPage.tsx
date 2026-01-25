@@ -18,11 +18,11 @@ export function TransactionsPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Sorting state
+
   const [sortBy, setSortBy] = useState<"date" | "amount" | "balance">("date");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
-  // Filter state
+
   const [filters, setFilters] = useState<TFilters>({
     searchQuery: "",
     categoryFilter: [],
@@ -30,7 +30,7 @@ export function TransactionsPage() {
     dateRange: { start: null, end: null },
   });
 
-  // Load data on mount
+
   useEffect(() => {
     storage.init();
     setTransactions(storage.getTransactions());
@@ -38,7 +38,7 @@ export function TransactionsPage() {
     setIsLoading(false);
   }, []);
 
-  // Filter and sort transactions
+
   const filteredTransactions = useMemo(() => {
     const filtered = filterTransactions(transactions, {
       searchQuery: filters.searchQuery,
@@ -49,12 +49,12 @@ export function TransactionsPage() {
     return sortTransactions(filtered, sortBy, sortOrder);
   }, [transactions, filters, sortBy, sortOrder]);
 
-  // Calculate total amount of filtered transactions
+
   const filteredTotal = useMemo(() => {
     return filteredTransactions.reduce((sum, t) => sum + t.amount, 0);
   }, [filteredTransactions]);
 
-  // Handle sort change
+
   const handleSortChange = (column: "date" | "amount" | "balance") => {
     if (sortBy === column) {
       setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
@@ -64,7 +64,7 @@ export function TransactionsPage() {
     }
   };
 
-  // Handle category update
+
   const handleUpdateCategory = (transactionId: string, newCategory: string) => {
     try {
       storage.updateTransaction(transactionId, {
@@ -78,7 +78,7 @@ export function TransactionsPage() {
     }
   };
 
-  // Handle delete transaction
+
   const handleDeleteTransaction = (transactionId: string) => {
     if (window.confirm("Are you sure you want to delete this transaction?")) {
       try {

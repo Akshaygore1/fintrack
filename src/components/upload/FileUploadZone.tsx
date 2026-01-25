@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 interface FileUploadZoneProps {
   onFileSelect: (file: File) => void;
   acceptedFileTypes?: string;
-  maxFileSize?: number; // in MB
+  maxFileSize?: number;
 }
 
 export function FileUploadZone({
@@ -19,12 +19,12 @@ export function FileUploadZone({
   const [error, setError] = useState<string | null>(null);
 
   const validateFile = (file: File): string | null => {
-    // Check file type
+
     if (!file.name.endsWith(".csv")) {
       return "Please upload a CSV file";
     }
 
-    // Check file size
+
     const fileSizeMB = file.size / (1024 * 1024);
     if (fileSizeMB > maxFileSize) {
       return `File size must be less than ${maxFileSize}MB`;

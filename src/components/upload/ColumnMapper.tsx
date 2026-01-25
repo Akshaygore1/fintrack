@@ -35,7 +35,7 @@ export function ColumnMapper({
   onMappingComplete,
   onCancel,
 }: ColumnMapperProps) {
-  // State for column mappings
+
   const [dateColumn, setDateColumn] = useState<string>("");
   const [descriptionColumn, setDescriptionColumn] = useState<string>("");
   const [amountMode, setAmountMode] = useState<AmountMode>("separate");
@@ -46,7 +46,7 @@ export function ColumnMapper({
   const [balanceColumn, setBalanceColumn] = useState<string>("");
   const [dateFormat, setDateFormat] = useState<"DD/MM/YYYY" | "DD/MM/YY">("DD/MM/YYYY");
 
-  // Auto-detect columns on mount
+
   useEffect(() => {
     const detectedDate = detectDateColumn(headers);
     const detectedDesc = detectDescriptionColumn(headers);
@@ -57,7 +57,7 @@ export function ColumnMapper({
     if (detectedDesc) setDescriptionColumn(detectedDesc);
     if (detectedBalance) setBalanceColumn(detectedBalance);
 
-    // Set amount mode based on detection
+
     if (detectedAmounts.creditColumn && detectedAmounts.debitColumn) {
       setAmountMode("separate");
       setCreditColumn(detectedAmounts.creditColumn);
@@ -67,7 +67,7 @@ export function ColumnMapper({
       setAmountColumn(detectedAmounts.amountColumn);
     }
 
-    // Auto-detect date format from preview
+
     if (preview.length > 0 && detectedDate) {
       const dateColIndex = headers.indexOf(detectedDate);
       if (dateColIndex !== -1) {
@@ -82,7 +82,7 @@ export function ColumnMapper({
     }
   }, [headers, preview]);
 
-  // Validation
+
   const isValid = () => {
     if (!dateColumn || !descriptionColumn) return false;
     if (amountMode === "single" && !amountColumn) return false;
@@ -111,7 +111,7 @@ export function ColumnMapper({
     onMappingComplete(mapping);
   };
 
-  // Get preview value for a column
+
   const getPreviewValue = (column: string): string => {
     if (!column || preview.length === 0) return "-";
     const colIndex = headers.indexOf(column);
@@ -128,14 +128,14 @@ export function ColumnMapper({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Required Fields */}
+
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-medium">Required Fields</h3>
             <Badge variant="destructive">Required</Badge>
           </div>
 
-          {/* Date Column */}
+
           <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 items-center">
             <label className="text-sm font-medium">Date</label>
             <Select value={dateColumn} onValueChange={(v) => setDateColumn(v ?? "")}>
@@ -155,7 +155,7 @@ export function ColumnMapper({
             </span>
           </div>
 
-          {/* Date Format */}
+
           <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 items-center">
             <label className="text-sm font-medium">Date Format</label>
             <Select value={dateFormat} onValueChange={(v) => setDateFormat(v as typeof dateFormat)}>
@@ -170,7 +170,7 @@ export function ColumnMapper({
             <span className="text-sm text-muted-foreground">-</span>
           </div>
 
-          {/* Description Column */}
+
           <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 items-center">
             <label className="text-sm font-medium">Description</label>
             <Select value={descriptionColumn} onValueChange={(v) => setDescriptionColumn(v ?? "")}>
@@ -190,7 +190,7 @@ export function ColumnMapper({
             </span>
           </div>
 
-          {/* Amount Mode Toggle */}
+
           <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 items-center">
             <label className="text-sm font-medium">Amount Type</label>
             <Select value={amountMode} onValueChange={(v) => setAmountMode(v as AmountMode)}>
@@ -205,7 +205,7 @@ export function ColumnMapper({
             <span className="text-sm text-muted-foreground">-</span>
           </div>
 
-          {/* Amount Columns based on mode */}
+
           {amountMode === "single" ? (
             <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 items-center">
               <label className="text-sm font-medium">Amount</label>
@@ -269,14 +269,14 @@ export function ColumnMapper({
           )}
         </div>
 
-        {/* Optional Fields */}
+
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-medium">Optional Fields</h3>
             <Badge variant="secondary">Optional</Badge>
           </div>
 
-          {/* Reference Number */}
+
           <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 items-center">
             <label className="text-sm font-medium">Reference No.</label>
             <Select value={refNoColumn || NONE_VALUE} onValueChange={(v) => setRefNoColumn(v === NONE_VALUE ? "" : (v ?? ""))}>
@@ -297,7 +297,7 @@ export function ColumnMapper({
             </span>
           </div>
 
-          {/* Balance */}
+
           <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 items-center">
             <label className="text-sm font-medium">Balance</label>
             <Select value={balanceColumn || NONE_VALUE} onValueChange={(v) => setBalanceColumn(v === NONE_VALUE ? "" : (v ?? ""))}>
@@ -319,7 +319,7 @@ export function ColumnMapper({
           </div>
         </div>
 
-        {/* Validation Status */}
+
         <div className="border p-4">
           <div className="flex items-start gap-3">
             {isValid() ? (
@@ -347,7 +347,7 @@ export function ColumnMapper({
           </div>
         </div>
 
-        {/* Info */}
+
         <div className="flex items-start gap-2 text-sm text-muted-foreground">
           <InfoIcon className="size-4 shrink-0 mt-0.5" />
           <p>
@@ -356,7 +356,7 @@ export function ColumnMapper({
           </p>
         </div>
 
-        {/* Actions */}
+
         <div className="flex justify-end gap-3">
           <Button variant="outline" onClick={onCancel}>
             Cancel

@@ -8,7 +8,7 @@ export function parseCSVFile(file: File): Promise<CSVParseResult> {
         try {
           const data = results.data as string[][];
 
-          // Remove empty rows
+
           const filteredData = data.filter((row) =>
             row.some((cell) => cell.trim() !== "")
           );
@@ -20,7 +20,7 @@ export function parseCSVFile(file: File): Promise<CSVParseResult> {
 
           const headers = filteredData[0].map((h) => h.trim());
           const rows = filteredData.slice(1);
-          const preview = rows.slice(0, 10); // First 10 rows for preview
+          const preview = rows.slice(0, 10);
 
           resolve({
             headers,
@@ -91,7 +91,7 @@ export function detectAmountColumns(
 } {
   const lowerHeaders = headers.map((h) => h.toLowerCase());
 
-  // Check for credit/debit columns
+
   const creditKeywords = ["credit", "deposit", "cr"];
   const debitKeywords = ["debit", "withdrawal", "dr"];
 
@@ -114,7 +114,7 @@ export function detectAmountColumns(
     }
   }
 
-  // Check for single amount column
+
   let amountColumn: string | null = null;
   if (!creditColumn && !debitColumn) {
     const amountKeywords = ["amount", "value", "transaction amount"];
@@ -147,7 +147,7 @@ export function detectBalanceColumn(headers: string[]): string | null {
 
 export function parseAmount(value: string): number {
   if (!value || value.trim() === "") return 0;
-  // Remove commas and parse
+
   const cleaned = value.replace(/,/g, "").trim();
   return parseFloat(cleaned) || 0;
 }

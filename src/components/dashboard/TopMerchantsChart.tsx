@@ -7,7 +7,7 @@ interface TopMerchantsChartProps {
 }
 
 export function TopMerchantsChart({ data }: TopMerchantsChartProps) {
-  // Take top 5 merchants by total spending
+
   const tableData = data.sort((a, b) => b.total - a.total).slice(0, 10);
 
   if (tableData.length === 0) {

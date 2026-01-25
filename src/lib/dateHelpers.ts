@@ -11,12 +11,12 @@ export function parseTransactionDate(
   }
 
   const day = parseInt(parts[0], 10);
-  const month = parseInt(parts[1], 10) - 1; // JS months are 0-indexed
+  const month = parseInt(parts[1], 10) - 1;
 
   let year: number;
   if (dateFormat === "DD/MM/YY") {
     year = parseInt(parts[2], 10);
-    // Assume 20xx for YY format
+
     year = 2000 + year;
   } else {
     year = parseInt(parts[2], 10);
@@ -24,7 +24,7 @@ export function parseTransactionDate(
 
   const date = new Date(year, month, day);
 
-  // Validation
+
   if (isNaN(date.getTime()) || !isValid(date)) {
     throw new Error("Invalid date");
   }
@@ -34,12 +34,12 @@ export function parseTransactionDate(
 
 export function formatTransactionDate(date: Date | string): string {
   const d = typeof date === "string" ? new Date(date) : date;
-  return format(d, "dd MMM yyyy"); // e.g., "25 Jan 2026"
+  return format(d, "dd MMM yyyy");
 }
 
 export function formatMonthYear(date: Date | string): string {
   const d = typeof date === "string" ? new Date(date) : date;
-  return format(d, "MMM yyyy"); // e.g., "Jan 2026"
+  return format(d, "MMM yyyy");
 }
 
 export function toISODate(date: Date): string {

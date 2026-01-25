@@ -16,7 +16,7 @@ export function CSVPreview({
 }: CSVPreviewProps) {
   const displayRows = rows.slice(0, maxRows);
 
-  // Get highlighted column indices based on mapping
+
   const getHighlightedColumns = (): Set<number> => {
     if (!mapping) return new Set();
 
@@ -43,7 +43,7 @@ export function CSVPreview({
 
   const highlightedColumns = getHighlightedColumns();
 
-  // Get column role label
+
   const getColumnLabel = (header: string): string | null => {
     if (!mapping) return null;
 

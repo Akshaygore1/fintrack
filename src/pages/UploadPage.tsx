@@ -69,7 +69,7 @@ export function UploadPage() {
     });
 
     try {
-      // Check if near storage limit
+
       const currentCount = storage.getTransactionCount();
       if (currentCount + csvData.rows.length > 5000) {
         throw new Error(
@@ -77,10 +77,10 @@ export function UploadPage() {
         );
       }
 
-      // Get categories for matching
+
       const categories = storage.getCategories();
 
-      // Get column indices
+
       const headers = csvData.headers;
       const dateIdx = headers.indexOf(mapping.dateColumn);
       const descIdx = headers.indexOf(mapping.descriptionColumn);
@@ -97,7 +97,7 @@ export function UploadPage() {
         const row = csvData.rows[i];
 
         try {
-          // Parse date
+
           const dateStr = row[dateIdx];
           if (!dateStr || !dateStr.trim()) {
             errors.push(`Row ${i + 2}: Empty date`);
@@ -112,36 +112,36 @@ export function UploadPage() {
             continue;
           }
 
-          // Get description
+
           const description = row[descIdx]?.trim() || "";
           if (!description) {
             errors.push(`Row ${i + 2}: Empty description`);
             continue;
           }
 
-          // Calculate amount
+
           let amount: number;
           if (amountIdx !== -1) {
-            // Single amount column
+
             amount = parseAmount(row[amountIdx]);
           } else {
-            // Separate credit/debit columns
+
             const credit = creditIdx !== -1 ? parseAmount(row[creditIdx]) : 0;
             const debit = debitIdx !== -1 ? parseAmount(row[debitIdx]) : 0;
-            // Credit is positive (income), debit is negative (expense)
+
             amount = credit > 0 ? credit : -Math.abs(debit);
           }
 
-          // Skip zero amount transactions
+
           if (amount === 0) {
             continue;
           }
 
-          // Get optional fields
+
           const refNo = refNoIdx !== -1 ? row[refNoIdx]?.trim() || "" : "";
           const balance = balanceIdx !== -1 ? parseAmount(row[balanceIdx]) : 0;
 
-          // Categorize and extract merchant
+
           const category = categorizeTransaction(description, amount, categories);
           const merchant = extractMerchant(description);
 
@@ -165,23 +165,23 @@ export function UploadPage() {
           errors.push(`Row ${i + 2}: ${error instanceof Error ? error.message : "Unknown error"}`);
         }
 
-        // Update progress every 50 rows
+
         if (i % 50 === 0) {
           setImportStatus((prev) => ({
             ...prev,
             processedCount: i + 1,
           }));
-          // Small delay to allow UI update
+
           await new Promise((resolve) => setTimeout(resolve, 0));
         }
       }
 
-      // Save transactions
+
       if (transactions.length > 0) {
         storage.addTransactions(transactions);
       }
 
-      // Show results
+
       if (errors.length > 0) {
         console.warn("Import warnings:", errors);
         if (transactions.length === 0) {
@@ -201,7 +201,7 @@ export function UploadPage() {
       });
       setStep("complete");
 
-      // Navigate to dashboard after short delay
+
       setTimeout(() => {
         navigate("/");
       }, 2000);
@@ -236,7 +236,7 @@ export function UploadPage() {
         </p>
       </div>
 
-      {/* Step indicator */}
+
       <div className="flex items-center gap-2 text-sm">
         <span className={step === "upload" ? "font-medium text-primary" : "text-muted-foreground"}>
           1. Select File
@@ -261,7 +261,7 @@ export function UploadPage() {
         </span>
       </div>
 
-      {/* Step content */}
+
       {step === "upload" && (
         <Card>
           <CardHeader>

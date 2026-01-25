@@ -13,7 +13,7 @@ export function SettingsPage() {
   const [transactionCount, setTransactionCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load data on mount
+
   useEffect(() => {
     storage.init();
     setCategories(storage.getCategories());
@@ -21,10 +21,10 @@ export function SettingsPage() {
     setIsLoading(false);
   }, []);
 
-  // Category handlers
+
   const handleAddCategory = (data: { name: string; keywords: string[]; color: string }) => {
     try {
-      // Check for duplicate names
+
       if (categories.some((c) => c.name.toLowerCase() === data.name.toLowerCase())) {
         toast.error("A category with this name already exists");
         return;
@@ -82,7 +82,7 @@ export function SettingsPage() {
     }
   };
 
-  // Data management handlers
+
   const handleExportCSV = () => {
     try {
       const csv = storage.exportTransactionsCSV();
@@ -149,7 +149,7 @@ export function SettingsPage() {
     <div className="p-6 space-y-8">
       <h1 className="text-2xl font-bold">Settings</h1>
 
-      {/* Category Management */}
+
       <CategoryManager
         categories={categories}
         onAddCategory={handleAddCategory}
@@ -160,11 +160,11 @@ export function SettingsPage() {
 
       <Separator />
 
-      {/* Data Management */}
+
       <div className="space-y-4">
         <h2 className="text-lg font-semibold">Data Management</h2>
 
-        {/* Export */}
+
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Export Data</CardTitle>
@@ -184,7 +184,7 @@ export function SettingsPage() {
           </CardContent>
         </Card>
 
-        {/* Clear Transactions */}
+
         <Card className="border-orange-200">
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
@@ -208,7 +208,7 @@ export function SettingsPage() {
           </CardContent>
         </Card>
 
-        {/* Clear All Data */}
+
         <Card className="border-red-200">
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2 text-red-600">
@@ -231,7 +231,7 @@ export function SettingsPage() {
         </Card>
       </div>
 
-      {/* Storage Info */}
+
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Storage Info</CardTitle>

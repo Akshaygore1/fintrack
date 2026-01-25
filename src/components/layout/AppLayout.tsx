@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 export function AppLayout() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
+
       <header className="border-b border-border bg-card sticky top-0 z-50">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center">
@@ -22,7 +22,7 @@ export function AppLayout() {
         </div>
       </header>
 
-      {/* Navigation Tabs */}
+
       <nav className="border-b border-border bg-card">
         <div className="container mx-auto px-4">
           <div className="flex space-x-1">
@@ -93,7 +93,7 @@ export function AppLayout() {
         </div>
       </nav>
 
-      {/* Main Content */}
+
       <main className="container mx-auto">
         <Outlet />
       </main>

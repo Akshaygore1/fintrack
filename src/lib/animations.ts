@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Animation constants
+
 export const TRANSITIONS = {
   spring: {
     type: "spring",
@@ -20,7 +20,7 @@ export const TRANSITIONS = {
   stagger: 0.1,
 };
 
-// Animation variants
+
 export const VARIANTS = {
   container: {
     hidden: { opacity: 0 },

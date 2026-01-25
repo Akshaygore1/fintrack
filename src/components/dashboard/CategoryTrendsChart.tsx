@@ -11,7 +11,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCompactCurrency } from "@/lib/transactionHelpers";
 
-// Tailwind colors for the chart
+
 const CHART_COLORS = [
   "#f97316", // orange
   "#22c55e", // green
@@ -32,7 +32,7 @@ interface CategoryTrendsChartProps {
 }
 
 export function CategoryTrendsChart({ data, categories }: CategoryTrendsChartProps) {
-  // Take top 5 categories by total across all months
+
   const topCategories = categories.slice(0, 5);
 
   if (data.length === 0 || topCategories.length === 0) {

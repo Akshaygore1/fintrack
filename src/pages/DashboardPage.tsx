@@ -20,7 +20,7 @@ export function DashboardPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load data on mount
+
   useEffect(() => {
     storage.init();
     setTransactions(storage.getTransactions());
@@ -28,7 +28,7 @@ export function DashboardPage() {
     setIsLoading(false);
   }, []);
 
-  // Calculate category summary (expenses only)
+
   const categorySummary = useMemo((): CategorySummary[] => {
     const expenseTransactions = transactions.filter(
       (t) => t.type === "expense",
@@ -60,7 +60,7 @@ export function DashboardPage() {
     });
   }, [transactions, categories]);
 
-  // Calculate merchant summary (expenses only) - For Top Spendings
+
   const merchantSummary = useMemo((): MerchantSummary[] => {
     const expenseTransactions = transactions.filter(
       (t) => t.type === "expense",
@@ -132,14 +132,14 @@ export function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Category Spending */}
+
         <CategoryDonutChart data={categorySummary} />
 
-        {/* Spending Trend (Gradient Graph) */}
+
         <SpendingGradientChart transactions={transactions} />
-        {/* Top Income */}
+
         <TopIncomeChart transactions={transactions} />
-        {/* Top Spendings */}
+
         <TopMerchantsChart data={merchantSummary} />
       </div>
     </div>

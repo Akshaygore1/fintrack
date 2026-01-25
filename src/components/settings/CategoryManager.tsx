@@ -62,7 +62,7 @@ export function CategoryManager({
 
   return (
     <div className="space-y-6">
-      {/* Actions */}
+
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Categories</h2>
         <div className="flex gap-2">
@@ -77,7 +77,7 @@ export function CategoryManager({
         </div>
       </div>
 
-      {/* Custom Categories */}
+
       {customCategories.length > 0 && (
         <Card>
           <CardHeader>
@@ -98,7 +98,7 @@ export function CategoryManager({
         </Card>
       )}
 
-      {/* Default Categories */}
+
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Default Categories</CardTitle>

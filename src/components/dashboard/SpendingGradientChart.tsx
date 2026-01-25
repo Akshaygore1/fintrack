@@ -29,7 +29,7 @@ export function SpendingGradientChart({
     if (expenseTransactions.length === 0) return [];
 
     expenseTransactions.forEach((t) => {
-      // Create a date key YYYY-MM-DD for sorting
+
       const dateDate = new Date(t.date);
       const year = dateDate.getFullYear();
       const month = String(dateDate.getMonth() + 1).padStart(2, "0");
@@ -48,7 +48,7 @@ export function SpendingGradientChart({
 
     return sortedDates.map((date) => {
       const d = new Date(date);
-      // Format as MMM dd (e.g. Jan 01)
+
       const formattedDate = d.toLocaleDateString("en-US", {
         month: "short",
         day: "2-digit",

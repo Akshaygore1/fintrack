@@ -8,26 +8,26 @@ export function categorizeTransaction(
   const isIncome = amount > 0;
   const descLower = description.toLowerCase();
 
-  // Priority 1: Check income first for deposits
+
   if (isIncome) {
     const incomeCategory = categories.find((c) => c.name === "Income");
     if (incomeCategory) {
-      // Check if matches income keywords
+
       if (
         incomeCategory.keywords.some((kw) => descLower.includes(kw.toLowerCase()))
       ) {
         return "Income";
       }
     }
-    return "Income"; // All deposits default to income
+    return "Income";
   }
 
-  // Priority 2: Check for personal transfers (UPI pattern)
+
   if (descLower.includes("upi-")) {
-    // Pattern: UPI-NAME-1234567890 (phone number)
+
     const upiPattern = /upi-[a-z\s]+-\d{10}/i;
     if (upiPattern.test(descLower)) {
-      // Ensure it's not a merchant (check if any category keyword matches)
+
       const hasOtherMatch = categories.some(
         (c) =>
           c.name !== "Personal Transfers" &&
@@ -40,7 +40,7 @@ export function categorizeTransaction(
     }
   }
 
-  // Priority 3: Match against all other categories (longest keyword first)
+
   const sortedCategories = categories
     .filter(
       (c) =>
@@ -50,7 +50,7 @@ export function categorizeTransaction(
         c.name !== "Personal Transfers"
     )
     .sort((a, b) => {
-      // Sort by longest keyword first for better matching
+
       const aMax = Math.max(...a.keywords.map((k) => k.length), 0);
       const bMax = Math.max(...b.keywords.map((k) => k.length), 0);
       return bMax - aMax;
@@ -64,6 +64,6 @@ export function categorizeTransaction(
     }
   }
 
-  // Default: Other
+
   return "Other";
 }

@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import type { CategorySummary } from "@/types";
 import { motion } from "framer-motion";
 
-// Clean modern colors
+
 const CHART_COLORS = [
   "#3b82f6", // blue-500
   "#8b5cf6", // violet-500
@@ -36,7 +36,7 @@ export function CategoryDonutChart({ data }: CategoryDonutChartProps) {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState<number | undefined>();
 
-  // Sort by total and take top 5
+
   const chartData = data
     .filter((d) => d.total > 0)
     .sort((a, b) => b.total - a.total)
@@ -214,7 +214,7 @@ export function CategoryDonutChart({ data }: CategoryDonutChartProps) {
             </ResponsiveContainer>
           </div>
 
-          {/* Default center content when no active index */}
+
           {!activeIndex && activeIndex !== 0 && (
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none mt-2">
               <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">

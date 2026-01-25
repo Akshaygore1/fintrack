@@ -86,9 +86,9 @@ export function TransactionFilters({
 
   return (
     <div className="space-y-4">
-      {/* Search and Type Filter Row */}
+
       <div className="flex flex-wrap gap-3">
-        {/* Search Input */}
+
         <div className="relative flex-1 min-w-[200px]">
           <MagnifyingGlass
             size={18}
@@ -102,7 +102,7 @@ export function TransactionFilters({
           />
         </div>
 
-        {/* Type Filter */}
+
         <Select value={filters.typeFilter} onValueChange={handleTypeChange}>
           <SelectTrigger className="w-[140px]">
             <SelectValue placeholder="Type" />
@@ -114,7 +114,7 @@ export function TransactionFilters({
           </SelectContent>
         </Select>
 
-        {/* Date Range */}
+
         <Input
           type="date"
           placeholder="Start date"
@@ -138,7 +138,7 @@ export function TransactionFilters({
           className="w-[150px]"
         />
 
-        {/* Clear Filters */}
+
         {hasActiveFilters && (
           <Button variant="outline" size="sm" onClick={handleClearFilters}>
             <X size={16} className="mr-1" />
@@ -147,7 +147,7 @@ export function TransactionFilters({
         )}
       </div>
 
-      {/* Category Filters */}
+
       <div className="flex flex-wrap items-center gap-2">
         <Funnel size={16} className="text-gray-500" />
         <span className="text-sm text-gray-500 mr-1">Categories:</span>
@@ -168,7 +168,7 @@ export function TransactionFilters({
           })}
       </div>
 
-      {/* Results Count */}
+
       <div className="text-sm text-gray-500">
         Showing {filteredCount.toLocaleString()} of {totalCount.toLocaleString()}{" "}
         transactions • Total: {formatCurrency(filteredTotal)}

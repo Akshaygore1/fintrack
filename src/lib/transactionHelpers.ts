@@ -3,27 +3,27 @@ import type { Transaction } from "@/types";
 export function extractMerchant(description: string): string {
   let merchant = description.trim();
 
-  // UPI transactions
+
   if (merchant.toUpperCase().startsWith("UPI-")) {
     const parts = merchant.split("-");
-    // Format: UPI-MERCHANTNAME-REFNO@BANK
+
     if (parts.length >= 2) {
       merchant = parts[1];
     }
   }
 
-  // NEFT transactions
+
   else if (merchant.toUpperCase().startsWith("NEFT")) {
     merchant = "NEFT Transfer";
   }
 
-  // Remove everything after @ symbol
+
   merchant = merchant.split("@")[0];
 
-  // Remove trailing reference numbers/IDs
+
   merchant = merchant.replace(/[-/]\d+$/g, "");
 
-  // Trim and limit length
+
   merchant = merchant.trim().substring(0, 30);
 
   return merchant;
@@ -42,13 +42,10 @@ export function formatCompactCurrency(amount: number): string {
   const absAmount = Math.abs(amount);
 
   if (absAmount >= 10000000) {
-    // 1 crore or more
     return `₹${(absAmount / 10000000).toFixed(2)}Cr`;
   } else if (absAmount >= 100000) {
-    // 1 lakh or more
     return `₹${(absAmount / 100000).toFixed(2)}L`;
   } else if (absAmount >= 1000) {
-    // 1 thousand or more
     return `₹${(absAmount / 1000).toFixed(1)}K`;
   }
 
@@ -93,7 +90,7 @@ export function filterTransactions(
 ): Transaction[] {
   let filtered = [...transactions];
 
-  // Search query filter
+
   if (filters.searchQuery) {
     const query = filters.searchQuery.toLowerCase();
     filtered = filtered.filter(
@@ -104,19 +101,19 @@ export function filterTransactions(
     );
   }
 
-  // Category filter
+
   if (filters.categoryFilter && filters.categoryFilter.length > 0) {
     filtered = filtered.filter((t) =>
       filters.categoryFilter!.includes(t.category)
     );
   }
 
-  // Type filter
+
   if (filters.typeFilter && filters.typeFilter !== "all") {
     filtered = filtered.filter((t) => t.type === filters.typeFilter);
   }
 
-  // Date range filter
+
   if (filters.dateRange?.start) {
     filtered = filtered.filter(
       (t) => new Date(t.date) >= filters.dateRange!.start!

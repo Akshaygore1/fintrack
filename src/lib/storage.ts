@@ -12,7 +12,7 @@ const MAX_TRANSACTIONS = 5000;
 const APP_VERSION = "1.0.0";
 
 class StorageManager {
-  // Initialize default data
+
   init(): void {
     if (!localStorage.getItem(STORAGE_KEYS.CATEGORIES)) {
       this.saveCategories(this.getDefaultCategories());
@@ -42,7 +42,7 @@ class StorageManager {
     };
   }
 
-  // Transactions
+
   getTransactions(): Transaction[] {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.TRANSACTIONS);
@@ -119,7 +119,7 @@ class StorageManager {
     return this.getTransactionCount() >= 4500;
   }
 
-  // Categories
+
   getCategories(): Category[] {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.CATEGORIES);
@@ -165,7 +165,7 @@ class StorageManager {
   deleteCategory(id: string): void {
     const categories = this.getCategories();
 
-    // Prevent deleting default categories
+
     const category = categories.find((c) => c.id === id);
     if (category && !category.isCustom) {
       throw new Error("Cannot delete default categories");
@@ -174,7 +174,7 @@ class StorageManager {
     const filtered = categories.filter((c) => c.id !== id);
     this.saveCategories(filtered);
 
-    // Re-categorize transactions using this category
+
     const transactions = this.getTransactions();
     const updatedTransactions = transactions.map((t) => {
       if (t.category === category?.name && !t.isManualCategory) {
@@ -189,7 +189,7 @@ class StorageManager {
     this.saveCategories(this.getDefaultCategories());
   }
 
-  // Settings
+
   getSettings(): AppSettings {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.SETTINGS);
@@ -209,7 +209,7 @@ class StorageManager {
     this.saveSettings({ ...settings, ...updates });
   }
 
-  // Export data
+
   exportTransactionsCSV(): string {
     const transactions = this.getTransactions();
 
@@ -240,7 +240,7 @@ class StorageManager {
     return csv;
   }
 
-  // Clear all data
+
   clearAllData(): void {
     localStorage.removeItem(STORAGE_KEYS.TRANSACTIONS);
     localStorage.removeItem(STORAGE_KEYS.CATEGORIES);
