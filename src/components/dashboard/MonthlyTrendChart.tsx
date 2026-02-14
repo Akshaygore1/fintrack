@@ -52,7 +52,7 @@ export function MonthlyTrendChart({ data }: MonthlyTrendChartProps) {
         <CardTitle className="text-lg">Monthly Trend</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={300} minHeight={300}>
           <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, Plus } from "@phosphor-icons/react";
+import { X, Plus, Tag, Palette, Key } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CATEGORY_COLORS } from "@/constants/categories";
 import type { Category } from "@/types";
@@ -57,35 +57,51 @@ export function CategoryForm({ category, onSave, onCancel }: CategoryFormProps) 
   const isEditing = !!category;
 
   return (
-    <Card>
+    <Card variant="glass">
       <CardHeader>
-        <CardTitle className="text-lg">
+        <CardTitle className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+            <Tag size={16} className="text-primary" />
+          </div>
           {isEditing ? "Edit Category" : "Add Category"}
         </CardTitle>
+        <CardDescription>
+          {isEditing 
+            ? "Update the category settings and keywords" 
+            : "Create a new category for organizing transactions"
+          }
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Name field */}
           <div className="space-y-2">
-            <Label htmlFor="name">Category Name</Label>
+            <Label htmlFor="name" className="text-sm flex items-center gap-1.5">
+              <Tag size={14} className="text-muted-foreground" />
+              Category Name
+            </Label>
             <Input
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g., Subscriptions"
               disabled={!category?.isCustom && isEditing}
+              className="bg-background/50"
             />
           </div>
 
-
+          {/* Color field */}
           <div className="space-y-2">
-            <Label htmlFor="color">Color</Label>
+            <Label htmlFor="color" className="text-sm flex items-center gap-1.5">
+              <Palette size={14} className="text-muted-foreground" />
+              Color
+            </Label>
             <Select value={color} onValueChange={(v) => v && setColor(v)}>
-              <SelectTrigger>
+              <SelectTrigger className="bg-background/50">
                 <SelectValue>
                   <div className="flex items-center gap-2">
                     <span
-                      className="w-4 h-4"
+                      className="w-4 h-4 rounded"
                       style={{ backgroundColor: getColorHex(color) }}
                     />
                     <span className="capitalize">{color}</span>
@@ -97,7 +113,7 @@ export function CategoryForm({ category, onSave, onCancel }: CategoryFormProps) 
                   <SelectItem key={c} value={c}>
                     <div className="flex items-center gap-2">
                       <span
-                        className="w-4 h-4"
+                        className="w-4 h-4 rounded"
                         style={{ backgroundColor: getColorHex(c) }}
                       />
                       <span className="capitalize">{c}</span>
@@ -108,9 +124,13 @@ export function CategoryForm({ category, onSave, onCancel }: CategoryFormProps) 
             </Select>
           </div>
 
-
+          {/* Keywords field */}
           <div className="space-y-2">
-            <Label htmlFor="keywords">Keywords (for auto-categorization)</Label>
+            <Label htmlFor="keywords" className="text-sm flex items-center gap-1.5">
+              <Key size={14} className="text-muted-foreground" />
+              Keywords
+              <span className="text-muted-foreground/60 font-normal">(for auto-categorization)</span>
+            </Label>
             <div className="flex gap-2">
               <Input
                 id="keywords"
@@ -118,35 +138,50 @@ export function CategoryForm({ category, onSave, onCancel }: CategoryFormProps) 
                 onChange={(e) => setKeywordInput(e.target.value)}
                 onKeyDown={handleKeywordKeyDown}
                 placeholder="Add keyword and press Enter"
+                className="bg-background/50"
               />
-              <Button type="button" variant="outline" onClick={handleAddKeyword}>
-                <Plus size={16} />
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="icon"
+                onClick={handleAddKeyword}
+                className="flex-shrink-0"
+              >
+                <Plus size={16} weight="bold" />
               </Button>
             </div>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {keywords.map((keyword) => (
-                <Badge
-                  key={keyword}
-                  variant="secondary"
-                  className="cursor-pointer"
-                  onClick={() => handleRemoveKeyword(keyword)}
-                >
-                  {keyword}
-                  <X size={12} className="ml-1" />
-                </Badge>
-              ))}
-              {keywords.length === 0 && (
-                <span className="text-sm text-gray-400">No keywords added</span>
+            
+            {/* Keywords list */}
+            <div className="flex flex-wrap gap-1.5 mt-3 min-h-[32px] p-2 rounded-lg bg-muted/30 border border-border/30">
+              {keywords.length > 0 ? (
+                keywords.map((keyword) => (
+                  <div
+                    key={keyword}
+                  >
+                    <Badge
+                      variant="secondary"
+                      className="cursor-pointer hover:bg-destructive/20 hover:text-destructive transition-colors gap-1"
+                      onClick={() => handleRemoveKeyword(keyword)}
+                    >
+                      {keyword}
+                      <X size={10} weight="bold" />
+                    </Badge>
+                  </div>
+                ))
+              ) : (
+                <span className="text-xs text-muted-foreground/60 px-1">
+                  No keywords added yet
+                </span>
               )}
             </div>
           </div>
 
-
-          <div className="flex gap-2 pt-2">
-            <Button type="submit" disabled={!name.trim()}>
+          {/* Actions */}
+          <div className="flex gap-2 pt-3">
+            <Button type="submit" disabled={!name.trim()} className="shadow-glow-sm">
               {isEditing ? "Save Changes" : "Add Category"}
             </Button>
-            <Button type="button" variant="outline" onClick={onCancel}>
+            <Button type="button" variant="ghost" onClick={onCancel}>
               Cancel
             </Button>
           </div>

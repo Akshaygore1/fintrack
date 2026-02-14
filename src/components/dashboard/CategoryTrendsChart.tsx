@@ -70,7 +70,7 @@ export function CategoryTrendsChart({ data, categories }: CategoryTrendsChartPro
         <CardTitle className="text-lg">Category Trends (Top 5)</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={300} minHeight={300}>
           <AreaChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis

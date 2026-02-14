@@ -2,7 +2,6 @@ import { TrendUp, TrendDown, Wallet, Scales } from "@phosphor-icons/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { AnimatedNumber } from "@/components/ui/animated-number";
-import { motion } from "framer-motion";
 
 interface SummaryCardsProps {
   totalIncome: number;
@@ -89,33 +88,15 @@ export function SummaryCards({
     },
   ];
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
-  };
-
   return (
-    <motion.div
+    <div
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-      variants={container}
-      initial="hidden"
-      animate="show"
     >
       {cards.map((card) => (
-        <motion.div key={card.title} variants={item}>
+        <div key={card.title}>
           <Card
             className={cn(
-              "border transition-all duration-200 hover:scale-[1.02] hover:shadow-md",
+              "border transition-all duration-200 hover:shadow-md",
               card.borderColor
             )}
           >
@@ -159,8 +140,8 @@ export function SummaryCards({
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </div>
       ))}
-    </motion.div>
+    </div>
   );
 }

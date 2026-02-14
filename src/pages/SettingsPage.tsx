@@ -1,18 +1,36 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { DownloadSimple, Trash, Warning } from "@phosphor-icons/react";
+import { 
+  DownloadSimple, 
+  Trash, 
+  Warning, 
+  Gear, 
+  Database,
+  Export,
+  ShieldWarning,
+  Tag,
+  HardDrives
+} from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { CategoryManager } from "@/components/settings/CategoryManager";
 import { storage } from "@/lib/storage";
 import type { Category } from "@/types";
+
+function LoadingState() {
+  return (
+    <div className="p-6 space-y-6">
+      <div className="h-8 w-48 skeleton-shimmer rounded-lg" />
+      <div className="h-64 skeleton-shimmer rounded-xl" />
+      <div className="h-48 skeleton-shimmer rounded-xl" />
+    </div>
+  );
+}
 
 export function SettingsPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [transactionCount, setTransactionCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-
 
   useEffect(() => {
     storage.init();
@@ -21,10 +39,8 @@ export function SettingsPage() {
     setIsLoading(false);
   }, []);
 
-
   const handleAddCategory = (data: { name: string; keywords: string[]; color: string }) => {
     try {
-
       if (categories.some((c) => c.name.toLowerCase() === data.name.toLowerCase())) {
         toast.error("A category with this name already exists");
         return;
@@ -39,7 +55,7 @@ export function SettingsPage() {
       });
       setCategories(storage.getCategories());
       toast.success("Category added");
-    } catch (error) {
+    } catch {
       toast.error("Failed to add category");
     }
   };
@@ -55,7 +71,7 @@ export function SettingsPage() {
       });
       setCategories(storage.getCategories());
       toast.success("Category updated");
-    } catch (error) {
+    } catch {
       toast.error("Failed to update category");
     }
   };
@@ -66,7 +82,7 @@ export function SettingsPage() {
         storage.deleteCategory(id);
         setCategories(storage.getCategories());
         toast.success("Category deleted");
-      } catch (error) {
+      } catch {
         toast.error("Failed to delete category");
       }
     }
@@ -77,11 +93,10 @@ export function SettingsPage() {
       storage.resetCategories();
       setCategories(storage.getCategories());
       toast.success("Categories reset to defaults");
-    } catch (error) {
+    } catch {
       toast.error("Failed to reset categories");
     }
   };
-
 
   const handleExportCSV = () => {
     try {
@@ -96,7 +111,7 @@ export function SettingsPage() {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       toast.success("Transactions exported");
-    } catch (error) {
+    } catch {
       toast.error("Failed to export transactions");
     }
   };
@@ -111,7 +126,7 @@ export function SettingsPage() {
         storage.clearAllTransactions();
         setTransactionCount(0);
         toast.success("All transactions cleared");
-      } catch (error) {
+      } catch {
         toast.error("Failed to clear transactions");
       }
     }
@@ -128,46 +143,65 @@ export function SettingsPage() {
         setCategories(storage.getCategories());
         setTransactionCount(0);
         toast.success("All data cleared");
-      } catch (error) {
+      } catch {
         toast.error("Failed to clear data");
       }
     }
   };
 
   if (isLoading) {
-    return (
-      <div className="p-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 w-48 bg-muted" />
-          <div className="h-64 bg-muted" />
-        </div>
-      </div>
-    );
+    return <LoadingState />;
   }
 
+  // Calculate storage usage
+  const storagePercentage = (transactionCount / 5000) * 100;
+  const isNearLimit = storage.isNearLimit();
+
   return (
-    <div className="p-6 space-y-8">
-      <h1 className="text-2xl font-bold">Settings</h1>
+    <div className="p-6 space-y-8 max-w-4xl mx-auto">
+      {/* Header */}
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center">
+          <Gear size={22} weight="duotone" className="text-muted-foreground" />
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">Settings</h1>
+          <p className="text-sm text-muted-foreground">
+            Manage categories and your data
+          </p>
+        </div>
+      </div>
 
+      {/* Categories Section */}
+      <div>
+        <CategoryManager
+          categories={categories}
+          onAddCategory={handleAddCategory}
+          onUpdateCategory={handleUpdateCategory}
+          onDeleteCategory={handleDeleteCategory}
+          onResetCategories={handleResetCategories}
+        />
+      </div>
 
-      <CategoryManager
-        categories={categories}
-        onAddCategory={handleAddCategory}
-        onUpdateCategory={handleUpdateCategory}
-        onDeleteCategory={handleDeleteCategory}
-        onResetCategories={handleResetCategories}
-      />
+      {/* Divider */}
+      <div className="h-px bg-border" />
 
-      <Separator />
-
-
+      {/* Data Management Section */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold">Data Management</h2>
+        <div className="flex items-center gap-2">
+          <Database size={18} weight="duotone" className="text-muted-foreground" />
+          <h2 className="text-lg font-semibold text-foreground">Data Management</h2>
+        </div>
 
-
-        <Card>
+        {/* Export Card */}
+        <Card variant="glass" className="group hover:border-primary/30 transition-colors">
           <CardHeader>
-            <CardTitle className="text-base">Export Data</CardTitle>
+            <CardTitle className="text-base flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <Export size={16} className="text-primary" />
+              </div>
+              Export Data
+            </CardTitle>
             <CardDescription>
               Download all your transactions as a CSV file
             </CardDescription>
@@ -177,18 +211,21 @@ export function SettingsPage() {
               variant="outline"
               onClick={handleExportCSV}
               disabled={transactionCount === 0}
+              className="gap-2"
             >
-              <DownloadSimple size={18} className="mr-2" />
+              <DownloadSimple size={18} weight="bold" />
               Export {transactionCount.toLocaleString()} Transactions
             </Button>
           </CardContent>
         </Card>
 
-
-        <Card className="border-orange-200">
+        {/* Clear Transactions Card */}
+        <Card variant="glass" className="border-expense/20 hover:border-expense/40 transition-colors">
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
-              <Warning size={18} className="text-orange-500" />
+              <div className="w-8 h-8 rounded-lg bg-expense/10 flex items-center justify-center">
+                <Warning size={16} className="text-expense" />
+              </div>
               Clear Transactions
             </CardTitle>
             <CardDescription>
@@ -200,19 +237,21 @@ export function SettingsPage() {
               variant="outline"
               onClick={handleClearTransactions}
               disabled={transactionCount === 0}
-              className="text-orange-600 border-orange-300 hover:bg-orange-50"
+              className="gap-2 text-expense border-expense/30 hover:bg-expense/10 hover:border-expense/50"
             >
-              <Trash size={18} className="mr-2" />
+              <Trash size={18} weight="bold" />
               Clear All Transactions
             </Button>
           </CardContent>
         </Card>
 
-
-        <Card className="border-red-200">
+        {/* Danger Zone Card */}
+        <Card variant="glass" className="border-destructive/30 hover:border-destructive/50 transition-colors">
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2 text-red-600">
-              <Warning size={18} />
+            <CardTitle className="text-base flex items-center gap-2 text-destructive">
+              <div className="w-8 h-8 rounded-lg bg-destructive/10 flex items-center justify-center">
+                <ShieldWarning size={16} className="text-destructive" />
+              </div>
               Danger Zone
             </CardTitle>
             <CardDescription>
@@ -223,40 +262,81 @@ export function SettingsPage() {
             <Button
               variant="destructive"
               onClick={handleClearAllData}
+              className="gap-2"
             >
-              <Trash size={18} className="mr-2" />
+              <Trash size={18} weight="bold" />
               Clear All Data
             </Button>
           </CardContent>
         </Card>
       </div>
 
+      {/* Storage Info Card */}
+      <div>
+        <Card variant="glass">
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <HardDrives size={18} weight="duotone" className="text-muted-foreground" />
+              Storage Usage
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {/* Progress bar */}
+            <div className="space-y-2">
+              <div className="h-2.5 bg-muted/50 rounded-full overflow-hidden border border-border/30">
+                <div
+                  className={`h-full rounded-full transition-colors ${
+                    isNearLimit ? "bg-expense" : "bg-primary"
+                  }`}
+                  style={{ width: `${Math.min(storagePercentage, 100)}%` }}
+                />
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">
+                  <span className="font-mono font-semibold text-foreground">
+                    {transactionCount.toLocaleString()}
+                  </span> of 5,000 transactions
+                </span>
+                <span className={`font-mono font-medium ${isNearLimit ? "text-expense" : "text-muted-foreground"}`}>
+                  {storagePercentage.toFixed(1)}%
+                </span>
+              </div>
+            </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Storage Info</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="text-muted-foreground">Transactions:</span>
-              <span className="ml-2 font-medium">
-                {transactionCount.toLocaleString()} / 5,000
-              </span>
+            {/* Stats grid */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 rounded-xl bg-muted/30 border border-border/30">
+                <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                  <Database size={14} />
+                  <span className="text-xs">Transactions</span>
+                </div>
+                <p className="font-mono font-semibold text-foreground">
+                  {transactionCount.toLocaleString()}
+                </p>
+              </div>
+              <div className="p-3 rounded-xl bg-muted/30 border border-border/30">
+                <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                  <Tag size={14} />
+                  <span className="text-xs">Categories</span>
+                </div>
+                <p className="font-mono font-semibold text-foreground">
+                  {categories.length}
+                </p>
+              </div>
             </div>
-            <div>
-              <span className="text-muted-foreground">Categories:</span>
-              <span className="ml-2 font-medium">{categories.length}</span>
-            </div>
-          </div>
-          {storage.isNearLimit() && (
-            <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 text-sm text-yellow-800 dark:text-yellow-200">
-              <Warning size={16} className="inline mr-2" />
-              You're approaching the storage limit. Consider exporting and clearing old transactions.
-            </div>
-          )}
-        </CardContent>
-      </Card>
+
+            {/* Warning if near limit */}
+            {isNearLimit && (
+              <div className="p-3 rounded-xl bg-expense/10 border border-expense/20 text-sm text-expense flex items-start gap-2">
+                <Warning size={18} weight="fill" className="flex-shrink-0 mt-0.5" />
+                <span>
+                  You're approaching the storage limit. Consider exporting and clearing old transactions.
+                </span>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
