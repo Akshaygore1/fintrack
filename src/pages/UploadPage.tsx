@@ -259,7 +259,7 @@ export function UploadPage() {
       setStep("complete");
 
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/app/dashboard");
       }, 2500);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Import failed";
@@ -452,7 +452,7 @@ export function UploadPage() {
                 <Button variant="outline" onClick={handleStartOver} className="gap-2">
                   Import More
                 </Button>
-                <Button onClick={() => navigate("/dashboard")} className="gap-2 shadow-glow-sm">
+                <Button onClick={() => navigate("/app/dashboard")} className="gap-2 shadow-glow-sm">
                   Go to Dashboard
                   <ArrowRight size={16} weight="bold" />
                 </Button>

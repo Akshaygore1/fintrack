@@ -9,13 +9,16 @@ import {
   Export,
   ShieldWarning,
   Tag,
-  HardDrives
+  HardDrives,
+  CurrencyDollar
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { CategoryManager } from "@/components/settings/CategoryManager";
 import { storage } from "@/lib/storage";
-import type { Category } from "@/types";
+import type { Category, AppSettings } from "@/types";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 function LoadingState() {
   return (
@@ -31,11 +34,16 @@ export function SettingsPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [transactionCount, setTransactionCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [settings, setSettings] = useState<AppSettings | null>(null);
+  const [tempExchangeRate, setTempExchangeRate] = useState("85");
 
   useEffect(() => {
     storage.init();
+    const loadedSettings = storage.getSettings();
     setCategories(storage.getCategories());
     setTransactionCount(storage.getTransactionCount());
+    setSettings(loadedSettings);
+    setTempExchangeRate((loadedSettings.exchangeRate || 85).toString());
     setIsLoading(false);
   }, []);
 
@@ -149,7 +157,34 @@ export function SettingsPage() {
     }
   };
 
-  if (isLoading) {
+  const handleCurrencyChange = (currency: "INR" | "USD") => {
+    if (!settings) return;
+    try {
+      storage.updateSettings({ currency });
+      setSettings({ ...settings, currency });
+      toast.success(`Currency changed to ${currency}`);
+    } catch {
+      toast.error("Failed to update currency");
+    }
+  };
+
+  const handleExchangeRateUpdate = () => {
+    if (!settings) return;
+    const rate = parseFloat(tempExchangeRate);
+    if (isNaN(rate) || rate <= 0) {
+      toast.error("Please enter a valid exchange rate");
+      return;
+    }
+    try {
+      storage.updateSettings({ exchangeRate: rate });
+      setSettings({ ...settings, exchangeRate: rate });
+      toast.success("Exchange rate updated");
+    } catch {
+      toast.error("Failed to update exchange rate");
+    }
+  };
+
+  if (isLoading || !settings) {
     return <LoadingState />;
   }
 
@@ -181,6 +216,76 @@ export function SettingsPage() {
           onDeleteCategory={handleDeleteCategory}
           onResetCategories={handleResetCategories}
         />
+      </div>
+
+      {/* Divider */}
+      <div className="h-px bg-border" />
+
+      {/* Currency Settings Section */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
+          <CurrencyDollar size={18} weight="duotone" className="text-muted-foreground" />
+          <h2 className="text-lg font-semibold text-foreground">Currency Settings</h2>
+        </div>
+
+        <Card variant="glass" className="group hover:border-primary/30 transition-colors">
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <CurrencyDollar size={16} className="text-primary" />
+              </div>
+              Display Currency
+            </CardTitle>
+            <CardDescription>
+              Choose between USD and INR for displaying amounts
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex gap-2">
+              <Button
+                variant={settings.currency === "INR" ? "default" : "outline"}
+                onClick={() => handleCurrencyChange("INR")}
+                className="flex-1"
+              >
+                INR (₹)
+              </Button>
+              <Button
+                variant={settings.currency === "USD" ? "default" : "outline"}
+                onClick={() => handleCurrencyChange("USD")}
+                className="flex-1"
+              >
+                USD ($)
+              </Button>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="exchange-rate" className="text-sm font-medium">
+                Exchange Rate (1 USD = ? INR)
+              </Label>
+              <div className="flex gap-2">
+                <Input
+                  id="exchange-rate"
+                  type="number"
+                  value={tempExchangeRate}
+                  onChange={(e) => setTempExchangeRate(e.target.value)}
+                  placeholder="85"
+                  step="0.01"
+                  min="0"
+                  className="flex-1"
+                />
+                <Button
+                  variant="outline"
+                  onClick={handleExchangeRateUpdate}
+                >
+                  Update
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Current rate: 1 USD = ₹{settings.exchangeRate}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Divider */}

@@ -200,7 +200,7 @@ function EmptyState() {
 
       <Button
         size="lg"
-        onClick={() => navigate("/upload")}
+        onClick={() => navigate("/app/upload")}
         className="gap-2 shadow-lg shadow-primary/20"
       >
         <UploadSimple size={20} weight="bold" />
@@ -342,7 +342,7 @@ export function DashboardPage() {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => navigate("/transactions")}
+          onClick={() => navigate("/app/transactions")}
           className="gap-2"
         >
           <Receipt size={16} />

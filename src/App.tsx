@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@/hooks/use-theme";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { LandingPage } from "@/pages/LandingPage";
 import { UploadPage } from "@/pages/UploadPage";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { TransactionsPage } from "@/pages/TransactionsPage";
@@ -15,28 +17,40 @@ export function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-          style: {
-            background: "var(--color-card)",
-            color: "var(--color-card-foreground)",
-            border: "1px solid var(--color-border)",
-          },
-        }}
-      />
-      <Routes>
-        <Route path="/" element={<AppLayout />}>
-          <Route index element={<Navigate to="/upload" replace />} />
-          <Route path="upload" element={<UploadPage />} />
-          <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="transactions" element={<TransactionsPage />} />
-          <Route path="settings" element={<SettingsPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: "var(--color-card)",
+              color: "var(--color-card-foreground)",
+              border: "1px solid var(--color-border)",
+            },
+          }}
+        />
+        <Routes>
+          {/* Public landing page */}
+          <Route path="/" element={<LandingPage />} />
+          
+          {/* App routes with sidebar layout */}
+          <Route path="/app" element={<AppLayout />}>
+            <Route index element={<Navigate to="/app/upload" replace />} />
+            <Route path="upload" element={<UploadPage />} />
+            <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="transactions" element={<TransactionsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
+
+          {/* Redirect old routes to new /app/* routes */}
+          <Route path="/upload" element={<Navigate to="/app/upload" replace />} />
+          <Route path="/dashboard" element={<Navigate to="/app/dashboard" replace />} />
+          <Route path="/transactions" element={<Navigate to="/app/transactions" replace />} />
+          <Route path="/settings" element={<Navigate to="/app/settings" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

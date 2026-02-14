@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { formatCompactCurrency, formatCurrency } from "@/lib/transactionHelpers";
+import { getCurrencySymbol, type Currency } from "@/lib/currencyConverter";
 import { cn } from "@/lib/utils";
+import { storage } from "@/lib/storage";
 
 interface AnimatedNumberProps {
   value: number;
@@ -84,6 +86,7 @@ interface AnimatedCurrencyProps {
   className?: string;
   showSign?: boolean;
   compact?: boolean;
+  currency?: Currency;
 }
 
 export function AnimatedCurrency({
@@ -92,12 +95,17 @@ export function AnimatedCurrency({
   className,
   showSign = false,
   compact = false,
+  currency,
 }: AnimatedCurrencyProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const [displayValue, setDisplayValue] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const previousValue = useRef(0);
   const animationRef = useRef<number | null>(null);
+
+  // Get currency from settings if not provided
+  const activeCurrency = currency || storage.getSettings().currency;
+  const currencySymbol = getCurrencySymbol(activeCurrency);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -174,7 +182,7 @@ export function AnimatedCurrency({
 
   return (
     <span ref={ref} className={cn("tabular-nums font-mono", className)}>
-      {sign}{prefix}${formatValue(Math.abs(displayValue))}
+      {sign}{prefix}{currencySymbol}{formatValue(Math.abs(displayValue))}
     </span>
   );
 }

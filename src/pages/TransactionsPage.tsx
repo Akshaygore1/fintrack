@@ -36,7 +36,7 @@ function EmptyState() {
       
       <Button 
         size="lg" 
-        onClick={() => navigate("/upload")}
+        onClick={() => navigate("/app/upload")}
         className="gap-2 shadow-lg shadow-primary/20"
       >
         <UploadSimple size={20} weight="bold" />
@@ -162,7 +162,7 @@ export function TransactionsPage() {
         </div>
         <Button 
           variant="outline" 
-          onClick={() => navigate("/upload")}
+          onClick={() => navigate("/app/upload")}
           className="gap-2"
         >
           <Plus size={16} weight="bold" />

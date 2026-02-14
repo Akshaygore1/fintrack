@@ -5,6 +5,8 @@ import {
   ListBulletsIcon,
   GearIcon,
   WalletIcon,
+  Sun,
+  Moon,
 } from "@phosphor-icons/react";
 import { useLocation, Link } from "react-router-dom";
 import {
@@ -24,31 +26,33 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "@/hooks/use-theme";
 import { storage } from "@/lib/storage";
 import type { Transaction } from "@/types";
 
 const navItems = [
   {
     title: "Upload",
-    url: "/upload",
+    url: "/app/upload",
     icon: UploadIcon,
     description: "Import transactions",
   },
   {
     title: "Dashboard",
-    url: "/dashboard",
+    url: "/app/dashboard",
     icon: ChartLineIcon,
     description: "Financial overview",
   },
   {
     title: "Transactions",
-    url: "/transactions",
+    url: "/app/transactions",
     icon: ListBulletsIcon,
     description: "View all transactions",
   },
   {
     title: "Settings",
-    url: "/settings",
+    url: "/app/settings",
     icon: GearIcon,
     description: "App preferences",
   },
@@ -137,11 +141,12 @@ function QuickStats() {
 export function AppSidebar() {
   const location = useLocation();
   const { isMobile, state } = useSidebar();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <Sidebar>
       <SidebarHeader className="p-4 border-b border-sidebar-border">
-        <Link to="/dashboard" className="flex items-center gap-3 px-2 group">
+        <Link to="/app/dashboard" className="flex items-center gap-3 px-2 group">
           <div
             className="relative"
           >
@@ -168,7 +173,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => {
-                const isActive = location.pathname === item.url;
+                const isActive = location.pathname === item.url || location.pathname.startsWith(item.url + "/");
                 
                 return (
                   <SidebarMenuItem key={item.title}>
@@ -236,6 +241,39 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="border-t border-sidebar-border">
+        <div className="px-3 py-2">
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size={state === "collapsed" ? "icon" : "default"}
+                  onClick={toggleTheme}
+                  className="w-full justify-start text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+                >
+                  {theme === "dark" ? (
+                    <Sun size={18} weight="duotone" />
+                  ) : (
+                    <Moon size={18} weight="duotone" />
+                  )}
+                  {state !== "collapsed" && (
+                    <span className="ml-3">{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+                  )}
+                </Button>
+              }
+            />
+            <TooltipContent
+              side="right"
+              align="center"
+              hidden={state !== "collapsed" || isMobile}
+            >
+              <span className="font-medium">
+                {theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              </span>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+        
         <QuickStats />
         
         {state !== "collapsed" && (

@@ -1,4 +1,5 @@
 import type { Transaction } from "@/types";
+import { type Currency, formatAmount, formatCompactAmount } from "./currencyConverter";
 
 export function extractMerchant(description: string): string {
   let merchant = description.trim();
@@ -29,7 +30,11 @@ export function extractMerchant(description: string): string {
   return merchant;
 }
 
-export function formatCurrency(amount: number): string {
+export function formatCurrency(amount: number, currency?: Currency): string {
+  if (currency) {
+    return formatAmount(Math.abs(amount), currency);
+  }
+  // Fallback to INR for backward compatibility
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
@@ -38,7 +43,11 @@ export function formatCurrency(amount: number): string {
   }).format(Math.abs(amount));
 }
 
-export function formatCompactCurrency(amount: number): string {
+export function formatCompactCurrency(amount: number, currency?: Currency): string {
+  if (currency) {
+    return formatCompactAmount(amount, currency);
+  }
+  // Fallback to INR for backward compatibility
   const absAmount = Math.abs(amount);
 
   if (absAmount >= 10000000) {

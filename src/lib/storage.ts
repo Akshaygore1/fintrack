@@ -38,6 +38,7 @@ class StorageManager {
       version: APP_VERSION,
       preferredDateFormat: "DD/MM/YYYY",
       currency: "INR",
+      exchangeRate: 85, // 1 USD = 85 INR (default)
       theme: "light",
     };
   }
@@ -193,7 +194,18 @@ class StorageManager {
   getSettings(): AppSettings {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.SETTINGS);
-      return data ? JSON.parse(data) : this.getDefaultSettings();
+      if (!data) {
+        return this.getDefaultSettings();
+      }
+      
+      const settings = JSON.parse(data);
+      // Migration: Add exchangeRate if it doesn't exist
+      if (!settings.exchangeRate) {
+        settings.exchangeRate = 85;
+        this.saveSettings(settings);
+      }
+      
+      return settings;
     } catch (error) {
       console.error("Error reading settings:", error);
       return this.getDefaultSettings();

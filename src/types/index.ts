@@ -76,7 +76,8 @@ export interface TransactionFilters {
 export interface AppSettings {
   version: string; // For migration support
   preferredDateFormat: "DD/MM/YYYY" | "DD/MM/YY";
-  currency: "INR";
+  currency: "INR" | "USD";
+  exchangeRate: number; // USD to INR conversion rate
   theme: "light" | "dark" | "system";
 }
 
