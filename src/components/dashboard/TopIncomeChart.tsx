@@ -9,7 +9,7 @@ interface TopIncomeChartProps {
   transactions: Transaction[];
 }
 
-export function TopIncomeChart({ transactions }: TopIncomeChartProps) {
+function TopIncomeChart({ transactions }: TopIncomeChartProps) {
   const navigate = useNavigate();
   
   const tableData = useMemo(() => {
@@ -125,3 +125,5 @@ export function TopIncomeChart({ transactions }: TopIncomeChartProps) {
     </div>
   );
 }
+
+export default TopIncomeChart;

@@ -8,7 +8,7 @@ interface TopMerchantsChartProps {
   data: MerchantSummary[];
 }
 
-export function TopMerchantsChart({ data }: TopMerchantsChartProps) {
+function TopMerchantsChart({ data }: TopMerchantsChartProps) {
   const navigate = useNavigate();
   const tableData = data.sort((a, b) => b.total - a.total).slice(0, 8);
   const maxAmount = tableData[0]?.total || 0;
@@ -101,3 +101,5 @@ export function TopMerchantsChart({ data }: TopMerchantsChartProps) {
     </div>
   );
 }
+
+export default TopMerchantsChart;

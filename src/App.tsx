@@ -2,13 +2,16 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { LandingPage } from "@/pages/LandingPage";
-import { UploadPage } from "@/pages/UploadPage";
-import { DashboardPage } from "@/pages/DashboardPage";
-import { TransactionsPage } from "@/pages/TransactionsPage";
-import { SettingsPage } from "@/pages/SettingsPage";
 import { storage } from "@/lib/storage";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
+import { PageSkeleton } from "@/components/ui/PageSkeleton";
+
+// Lazy load all page components for code splitting
+const LandingPage = lazy(() => import("@/pages/LandingPage"));
+const UploadPage = lazy(() => import("@/pages/UploadPage"));
+const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
+const TransactionsPage = lazy(() => import("@/pages/TransactionsPage"));
+const SettingsPage = lazy(() => import("@/pages/SettingsPage"));
 
 export function App() {
 
@@ -32,15 +35,50 @@ export function App() {
         />
         <Routes>
           {/* Public landing page */}
-          <Route path="/" element={<LandingPage />} />
+          <Route 
+            path="/" 
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <LandingPage />
+              </Suspense>
+            } 
+          />
           
           {/* App routes with sidebar layout */}
           <Route path="/app" element={<AppLayout />}>
             <Route index element={<Navigate to="/app/upload" replace />} />
-            <Route path="upload" element={<UploadPage />} />
-            <Route path="dashboard" element={<DashboardPage />} />
-            <Route path="transactions" element={<TransactionsPage />} />
-            <Route path="settings" element={<SettingsPage />} />
+            <Route 
+              path="upload" 
+              element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <UploadPage />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="dashboard" 
+              element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <DashboardPage />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="transactions" 
+              element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <TransactionsPage />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="settings" 
+              element={
+                <Suspense fallback={<PageSkeleton />}>
+                  <SettingsPage />
+                </Suspense>
+              } 
+            />
           </Route>
 
           {/* Redirect old routes to new /app/* routes */}

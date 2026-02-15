@@ -7,7 +7,7 @@ import { PrivacySection } from "@/components/landing/PrivacySection";
 import { FAQ } from "@/components/landing/FAQ";
 import { Footer } from "@/components/landing/Footer";
 
-export function LandingPage() {
+function LandingPage() {
   return (
     <div className="min-h-screen bg-background">
       <LandingHeader />
@@ -23,3 +23,5 @@ export function LandingPage() {
     </div>
   );
 }
+
+export default LandingPage;

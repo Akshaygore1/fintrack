@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   UploadSimple,
@@ -12,10 +12,7 @@ import {
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CategoryDonutChart } from "@/components/dashboard/CategoryDonutChart";
-import { TopMerchantsChart } from "@/components/dashboard/TopMerchantsChart";
-import { TopIncomeChart } from "@/components/dashboard/TopIncomeChart";
-import { SpendingGradientChart } from "@/components/dashboard/SpendingGradientChart";
+import { ChartSkeleton } from "@/components/ui/ChartSkeleton";
 import { AnimatedCurrency } from "@/components/ui/animated-number";
 import { storage } from "@/lib/storage";
 import type {
@@ -24,6 +21,12 @@ import type {
   CategorySummary,
   MerchantSummary,
 } from "@/types";
+
+// Lazy load chart components for additional code splitting
+const CategoryDonutChart = lazy(() => import("@/components/dashboard/CategoryDonutChart"));
+const TopMerchantsChart = lazy(() => import("@/components/dashboard/TopMerchantsChart"));
+const TopIncomeChart = lazy(() => import("@/components/dashboard/TopIncomeChart"));
+const SpendingGradientChart = lazy(() => import("@/components/dashboard/SpendingGradientChart"));
 
 function StatCard({
   title,
@@ -236,7 +239,7 @@ function LoadingState() {
   );
 }
 
-export function DashboardPage() {
+function DashboardPage() {
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -381,12 +384,25 @@ export function DashboardPage() {
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <CategoryDonutChart data={categorySummary} />
-        <SpendingGradientChart transactions={transactions} />
-        <TopIncomeChart transactions={transactions} />
-        <TopMerchantsChart data={merchantSummary} />
-      </div>
+      <Suspense 
+        fallback={
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ChartSkeleton />
+            <ChartSkeleton />
+            <ChartSkeleton />
+            <ChartSkeleton />
+          </div>
+        }
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <CategoryDonutChart data={categorySummary} />
+          <SpendingGradientChart transactions={transactions} />
+          <TopIncomeChart transactions={transactions} />
+          <TopMerchantsChart data={merchantSummary} />
+        </div>
+      </Suspense>
     </div>
   );
 }
+
+export default DashboardPage;

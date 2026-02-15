@@ -30,7 +30,7 @@ function LoadingState() {
   );
 }
 
-export function SettingsPage() {
+function SettingsPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [transactionCount, setTransactionCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -445,3 +445,5 @@ export function SettingsPage() {
     </div>
   );
 }
+
+export default SettingsPage;

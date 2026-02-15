@@ -32,7 +32,7 @@ interface CategoryDonutChartProps {
   data: CategorySummary[];
 }
 
-export function CategoryDonutChart({ data }: CategoryDonutChartProps) {
+function CategoryDonutChart({ data }: CategoryDonutChartProps) {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState<number | undefined>();
 
@@ -268,3 +268,5 @@ export function CategoryDonutChart({ data }: CategoryDonutChartProps) {
     </div>
   );
 }
+
+export default CategoryDonutChart;

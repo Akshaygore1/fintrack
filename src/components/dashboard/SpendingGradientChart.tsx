@@ -17,7 +17,7 @@ interface SpendingGradientChartProps {
   transactions: Transaction[];
 }
 
-export function SpendingGradientChart({
+function SpendingGradientChart({
   transactions,
 }: SpendingGradientChartProps) {
   const chartData = useMemo(() => {
@@ -170,3 +170,5 @@ export function SpendingGradientChart({
     </div>
   );
 }
+
+export default SpendingGradientChart;

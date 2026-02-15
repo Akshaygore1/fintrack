@@ -61,7 +61,7 @@ function LoadingState() {
   );
 }
 
-export function TransactionsPage() {
+function TransactionsPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -193,3 +193,5 @@ export function TransactionsPage() {
     </div>
   );
 }
+
+export default TransactionsPage;

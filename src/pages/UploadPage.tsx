@@ -91,7 +91,7 @@ function StepIndicator({ currentStep }: { currentStep: UploadStep }) {
   );
 }
 
-export function UploadPage() {
+function UploadPage() {
   const navigate = useNavigate();
   const [step, setStep] = useState<UploadStep>("upload");
   const [csvData, setCsvData] = useState<CSVParseResult | null>(null);
@@ -463,3 +463,5 @@ export function UploadPage() {
     </div>
   );
 }
+
+export default UploadPage;
