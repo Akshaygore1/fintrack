@@ -1,0 +1,49 @@
+{
+  "name": "FinTrack - Privacy-First Finance Tracker",
+  "short_name": "FinTrack",
+  "description": "Track your finances privately. Import bank statements, auto-categorize transactions, and visualize spending - all 100% local in your browser.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#8b5cf6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "productivity", "utilities"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Upload Transactions",
+      "short_name": "Upload",
+      "description": "Import bank statement CSV",
+      "url": "/app/upload",
+      "icons": []
+    },
+    {
+      "name": "View Dashboard",
+      "short_name": "Dashboard",
+      "description": "View spending analytics",
+      "url": "/app/dashboard",
+      "icons": []
+    },
+    {
+      "name": "Transactions",
+      "short_name": "Transactions",
+      "description": "Browse all transactions",
+      "url": "/app/transactions",
+      "icons": []
+    }
+  ]
+}

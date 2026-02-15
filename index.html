@@ -2,9 +2,127 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vite-app</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>FinTrack - Privacy-First Personal Finance Tracker | 100% Local & Free</title>
+    <meta name="title" content="FinTrack - Privacy-First Personal Finance Tracker | 100% Local & Free" />
+    <meta name="description" content="Track your finances privately with FinTrack. Import bank statements, auto-categorize transactions, and visualize spending - all 100% local in your browser. No account needed, free forever." />
+    <meta name="keywords" content="personal finance tracker, expense tracker, bank statement analyzer, budget tracker, privacy-focused finance, offline finance app, transaction categorization, spending analytics" />
+    <meta name="author" content="FinTrack" />
+    <meta name="theme-color" content="#8b5cf6" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://fintrack.app/" />
+    <meta property="og:title" content="FinTrack - Privacy-First Personal Finance Tracker" />
+    <meta property="og:description" content="Import bank statements, auto-categorize transactions, and visualize spending. 100% local in your browser - your data never leaves your device." />
+    <meta property="og:image" content="https://fintrack.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://fintrack.app/" />
+    <meta name="twitter:title" content="FinTrack - Privacy-First Personal Finance Tracker" />
+    <meta name="twitter:description" content="Import bank statements, auto-categorize transactions, and visualize spending. 100% local in your browser - your data never leaves your device." />
+    <meta name="twitter:image" content="https://fintrack.app/twitter-image.png" />
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://fintrack.app/" />
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Preconnect for performance (add your CDN/font providers if any) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    
+    <!-- Structured Data - WebApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "FinTrack",
+      "applicationCategory": "FinanceApplication",
+      "description": "Privacy-first personal finance tracker that runs 100% locally in your browser. Import bank statements, auto-categorize transactions, and visualize spending without your data ever leaving your device.",
+      "operatingSystem": "Any (Web-based)",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Smart CSV import with auto-detection",
+        "Auto-categorization for transactions",
+        "100% local storage (no servers)",
+        "Custom category creation",
+        "Interactive dashboard with charts",
+        "Export functionality",
+        "Works offline",
+        "No account required"
+      ],
+      "browserRequirements": "Requires JavaScript. Modern browser recommended.",
+      "permissions": "localStorage access only"
+    }
+    </script>
+    
+    <!-- Structured Data - FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my financial data really private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, 100%. FinTrack runs entirely in your browser. Your data is stored in localStorage on your device and is never sent to any server. We have no backend, no database, and no way to access your information."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What CSV formats are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "FinTrack supports most bank statement CSV formats from Indian banks including HDFC, ICICI, SBI, Axis, Kotak, and others. The app automatically detects common column names like Date, Description, Debit, Credit, and Balance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I customize the spending categories?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely! FinTrack comes with 13 pre-built categories optimized for Indian merchants. You can create unlimited custom categories, edit existing ones, add your own keywords for better matching, and assign custom colors."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the app work offline?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Once FinTrack is loaded in your browser, it works completely offline. You can import CSV files, view your dashboard, filter transactions, and manage categories without any internet connection."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is FinTrack really free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, FinTrack is completely free with no hidden costs, premium tiers, or in-app purchases. Since there's no server infrastructure to maintain, we can offer the full feature set at no cost."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
