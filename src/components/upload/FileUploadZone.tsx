@@ -173,6 +173,7 @@ export function FileUploadZone({
               className="hidden"
               accept={acceptedFileTypes}
               onChange={handleFileInput}
+              data-testid="file-input"
             />
           </label>
         ) : (
@@ -210,7 +211,7 @@ export function FileUploadZone({
 
       {/* Error message */}
       {error && (
-        <p className="mt-3 text-sm text-destructive flex items-center gap-2">
+        <p className="mt-3 text-sm text-destructive flex items-center gap-2" data-testid="upload-error">
           <span className="w-1.5 h-1.5 rounded-full bg-destructive" />
           {error}
         </p>

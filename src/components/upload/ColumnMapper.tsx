@@ -139,7 +139,7 @@ export function ColumnMapper({
           <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 items-center">
             <label className="text-sm font-medium">Date</label>
             <Select value={dateColumn} onValueChange={(v) => setDateColumn(v ?? "")}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full" data-testid="date-column-select">
                 <SelectValue placeholder="Select column" />
               </SelectTrigger>
               <SelectContent>
@@ -150,7 +150,7 @@ export function ColumnMapper({
                 ))}
               </SelectContent>
             </Select>
-            <span className="text-sm text-muted-foreground truncate">
+            <span className="text-sm text-muted-foreground truncate" data-testid="date-preview">
               {getPreviewValue(dateColumn)}
             </span>
           </div>
@@ -174,7 +174,7 @@ export function ColumnMapper({
           <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 items-center">
             <label className="text-sm font-medium">Description</label>
             <Select value={descriptionColumn} onValueChange={(v) => setDescriptionColumn(v ?? "")}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full" data-testid="description-column-select">
                 <SelectValue placeholder="Select column" />
               </SelectTrigger>
               <SelectContent>
@@ -185,7 +185,7 @@ export function ColumnMapper({
                 ))}
               </SelectContent>
             </Select>
-            <span className="text-sm text-muted-foreground truncate">
+            <span className="text-sm text-muted-foreground truncate" data-testid="description-preview">
               {getPreviewValue(descriptionColumn)}
             </span>
           </div>
@@ -194,7 +194,7 @@ export function ColumnMapper({
           <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 items-center">
             <label className="text-sm font-medium">Amount Type</label>
             <Select value={amountMode} onValueChange={(v) => setAmountMode(v as AmountMode)}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full" data-testid="amount-mode-select">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -358,10 +358,10 @@ export function ColumnMapper({
 
 
         <div className="flex justify-end gap-3">
-          <Button variant="outline" onClick={onCancel}>
+          <Button variant="outline" onClick={onCancel} data-testid="cancel-mapping-button">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} disabled={!isValid()}>
+          <Button onClick={handleSubmit} disabled={!isValid()} data-testid="continue-mapping-button">
             Import Transactions
           </Button>
         </div>

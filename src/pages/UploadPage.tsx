@@ -398,11 +398,11 @@ export function UploadPage() {
 
                 {/* Actions */}
                 <div className="flex justify-between pt-2">
-                  <Button variant="ghost" onClick={handleBackToMapping} className="gap-2">
+                  <Button variant="ghost" onClick={handleBackToMapping} className="gap-2" data-testid="back-to-mapping-button">
                     <ArrowLeft size={16} weight="bold" />
                     Back to Mapping
                   </Button>
-                  <Button onClick={handleStartImport} className="gap-2 shadow-glow-sm">
+                  <Button onClick={handleStartImport} className="gap-2 shadow-glow-sm" data-testid="start-import-button">
                     Start Import
                     <ArrowRight size={16} weight="bold" />
                   </Button>

@@ -1,0 +1,6 @@
+Transaction Date,Details,Ref,Amount,Running Balance
+01/15/2026,Paycheck Direct Deposit,PAY001,3500.00,8500.00
+01/16/2026,Amazon Purchase,AMZ001,-89.99,8410.01
+01/17/2026,Gas Station,GAS001,-45.00,8365.01
+01/18/2026,Restaurant Dinner,REST001,-67.50,8297.51
+01/19/2026,Electric Bill Payment,ELEC001,-120.00,8177.51

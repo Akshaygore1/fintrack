@@ -91,7 +91,24 @@ export function detectAmountColumns(
 } {
   const lowerHeaders = headers.map((h) => h.toLowerCase());
 
+  // First, check for a single amount column (preferred if it exists)
+  // Be specific to avoid false matches with "value date" etc
+  let amountColumn: string | null = null;
+  const amountKeywords = ["amount", "transaction amount", "txn amount"];
+  for (const keyword of amountKeywords) {
+    const index = lowerHeaders.findIndex((h) => h.includes(keyword));
+    if (index !== -1) {
+      amountColumn = headers[index];
+      break;
+    }
+  }
 
+  // If we found an amount column, prioritize it and return
+  if (amountColumn) {
+    return { creditColumn: null, debitColumn: null, amountColumn };
+  }
+
+  // Otherwise, look for separate credit/debit columns
   const creditKeywords = ["credit", "deposit", "cr"];
   const debitKeywords = ["debit", "withdrawal", "dr"];
 
@@ -114,20 +131,7 @@ export function detectAmountColumns(
     }
   }
 
-
-  let amountColumn: string | null = null;
-  if (!creditColumn && !debitColumn) {
-    const amountKeywords = ["amount", "value", "transaction amount"];
-    for (const keyword of amountKeywords) {
-      const index = lowerHeaders.findIndex((h) => h.includes(keyword));
-      if (index !== -1) {
-        amountColumn = headers[index];
-        break;
-      }
-    }
-  }
-
-  return { creditColumn, debitColumn, amountColumn };
+  return { creditColumn, debitColumn, amountColumn: null };
 }
 
 export function detectBalanceColumn(headers: string[]): string | null {
